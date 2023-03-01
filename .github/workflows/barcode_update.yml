@@ -26,7 +26,7 @@ jobs:
       - name: update history if output is different 
         run: |
           echo "running git diff, committing if different"
-          if [[($(git status freyja/data/usher_barcodes.csv --porcelain | wc -c) -ne 0)]]; then
+          if [[($(git status usher_barcodes.csv --porcelain | wc -c) -ne 0)]]; then
             echo "changes were made, updating barcodes"
             git config --local user.name "$GITHUB_ACTOR"
             git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
