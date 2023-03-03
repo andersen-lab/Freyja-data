@@ -2,7 +2,7 @@ name: barcode update
 
 on:
   schedule:
-    - cron: '30 0 * * *'
+    - cron: '30 5 * * *'
 
 jobs:
   testsuite:
@@ -20,9 +20,8 @@ jobs:
       - name: update
         shell: bash -l {0}
         run: |
-          conda activate test
-          wget https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/usher_barcodes.csv
-          wget https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/curated_lineages.json
+          wget -O https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/usher_barcodes.csv
+          wget -O https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/curated_lineages.json
       - name: update history if output is different 
         run: |
           echo "running git diff, committing if different"
