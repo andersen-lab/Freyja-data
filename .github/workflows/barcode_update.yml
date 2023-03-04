@@ -20,8 +20,8 @@ jobs:
       - name: update
         shell: bash -l {0}
         run: |
-          wget -O https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/usher_barcodes.csv
-          wget -O https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/curated_lineages.json
+          wget https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/usher_barcodes.csv -O usher_barcodes.csv
+          wget https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/curated_lineages.json -O curated_lineages.json
       - name: update history if output is different 
         run: |
           echo "running git diff, committing if different"
