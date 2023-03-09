@@ -2,7 +2,7 @@ name: barcode update
 
 on:
   schedule:
-    - cron: '5 * * * *'
+    - cron: '30 0 * * *'
 
 jobs:
   testsuite:
