@@ -2,7 +2,7 @@ name: barcode update
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '30 0 * * *'
 
 jobs:
   testsuite:
@@ -32,15 +32,13 @@ jobs:
             git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
             cp usher_barcodes.csv history_barcodes/usher_barcodes$(date +"%m_%d_%Y-%H-%M").csv
             cp curated_lineages.json history_metadata/curated_lineages$(date +"%m_%d_%Y-%H-%M").json
-            if [[($(git status barcoded_lineages.txt --porcelain | wc -c) -ne 0)]]; then
-              git diff -U0 barcoded_lineages.txt | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' > history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
-              git add history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
-            fi
+            git diff -U0 barcoded_lineages.txt | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' > history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
             git add usher_barcodes.csv
             git add barcoded_lineages.txt
             git add curated_lineages.json
             git add history_barcodes/usher_barcodes$(date +"%m_%d_%Y-%H-%M").csv
             git add history_metadata/curated_lineages$(date +"%m_%d_%Y-%H-%M").json
+            git add history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
             git commit -m "updating historic data"
             git push origin main
           else
