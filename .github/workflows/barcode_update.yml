@@ -37,6 +37,7 @@ jobs:
             if [[($(git status barcoded_lineages.txt --porcelain | wc -c) -ne 0)]]; then
               git diff -U0 barcoded_lineages.txt | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' > history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
               git add history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
+              python clean_diff.py history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt >> all_diffs.txt
             fi
             git add usher_barcodes.csv
             git add barcoded_lineages.txt
