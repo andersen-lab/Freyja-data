@@ -22,6 +22,7 @@ jobs:
         run: |
           wget https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/usher_barcodes.csv -O usher_barcodes.csv
           wget https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/curated_lineages.json -O curated_lineages.json
+          wget https://raw.githubusercontent.com/andersen-lab/Freyja/main/freyja/data/lineages.yml -O lineages.yml
           cat usher_barcodes.csv | cut -d, -f1 > barcoded_lineages.txt
       - name: update history if output is different 
         run: |
@@ -32,6 +33,7 @@ jobs:
             git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
             cp usher_barcodes.csv history_barcodes/usher_barcodes$(date +"%m_%d_%Y-%H-%M").csv
             cp curated_lineages.json history_metadata/curated_lineages$(date +"%m_%d_%Y-%H-%M").json
+            cp lineages.yml history_lineage_hierarchy/lineages$(date +"%m_%d_%Y-%H-%M").yml
             if [[($(git status barcoded_lineages.txt --porcelain | wc -c) -ne 0)]]; then
               git diff -U0 barcoded_lineages.txt | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' > history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
               git add history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
@@ -39,8 +41,10 @@ jobs:
             git add usher_barcodes.csv
             git add barcoded_lineages.txt
             git add curated_lineages.json
+            git add lineages.yml
             git add history_barcodes/usher_barcodes$(date +"%m_%d_%Y-%H-%M").csv
             git add history_metadata/curated_lineages$(date +"%m_%d_%Y-%H-%M").json
+            git add history_lineage_hierarchy/lineages$(date +"%m_%d_%Y-%H-%M").yml
             git commit -m "updating historic data"
             git push origin main
           else
