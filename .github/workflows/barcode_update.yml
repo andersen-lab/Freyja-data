@@ -1,6 +1,9 @@
 name: barcode update
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '30 0 * * *'
 
@@ -34,10 +37,10 @@ jobs:
             cp usher_barcodes.feather history_barcodes/usher_barcodes$(date +"%m_%d_%Y-%H-%M").feather
             cp curated_lineages.json history_metadata/curated_lineages$(date +"%m_%d_%Y-%H-%M").json
             cp lineages.yml history_lineage_hierarchy/lineages$(date +"%m_%d_%Y-%H-%M").yml
-            if [[($(git status lineage_mutations.json --porcelain | wc -c) -ne 0)]]; then
-              git diff -U0 lineage_mutations.json | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' > history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
-              git add history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
-            fi
+            # if [[($(git status lineage_mutations.json --porcelain | wc -c) -ne 0)]]; then
+            #   git diff -U0 lineage_mutations.json | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' > history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
+            #   git add history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
+            # fi
             git add usher_barcodes.feather
             git add curated_lineages.json
             git add lineages.yml
