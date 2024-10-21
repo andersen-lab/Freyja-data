@@ -34,12 +34,13 @@ jobs:
             echo "changes were made, updating barcodes"
             git config --local user.name "$GITHUB_ACTOR"
             git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-            cp usher_barcodes.feather history_barcodes/usher_barcodes$(date +"%m_%d_%Y-%H-%M").feather
-            cp curated_lineages.json history_metadata/curated_lineages$(date +"%m_%d_%Y-%H-%M").json
-            cp lineages.yml history_lineage_hierarchy/lineages$(date +"%m_%d_%Y-%H-%M").yml
+            timestamp=$(date +"%m_%d_%Y-%H-%M")
+            cp usher_barcodes.feather history_barcodes/usher_barcodes${timestamp}.feather
+            cp curated_lineages.json history_metadata/curated_lineages${timestamp}.json
+            cp lineages.yml history_lineage_hierarchy/lineages${timestamp}.yml
             # if [[($(git status lineage_mutations.json --porcelain | wc -c) -ne 0)]]; then
-            #   git diff -U0 lineage_mutations.json | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' > history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
-            #   git add history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
+            #   git diff -U0 lineage_mutations.json | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)' > history_barcode_diffs/barcode_diff${timestamp}.txt
+            #   git add history_barcode_diffs/barcode_diff${timestamp}.txt
             # fi
             git add usher_barcodes.feather
             pip install pandas pyarrow
@@ -48,9 +49,9 @@ jobs:
             git add curated_lineages.json
             git add lineages.yml
             git add lineage_mutations.json
-            git add history_barcodes/usher_barcodes$(date +"%m_%d_%Y-%H-%M").feather
-            git add history_metadata/curated_lineages$(date +"%m_%d_%Y-%H-%M").json
-            git add history_lineage_hierarchy/lineages$(date +"%m_%d_%Y-%H-%M").yml
+            git add history_barcodes/usher_barcodes${timestamp}.feather
+            git add history_metadata/curated_lineages${timestamp}.json
+            git add history_lineage_hierarchy/lineages${timestamp}.yml
             git commit -m "updating historic data"
             git push origin main
           else
