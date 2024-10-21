@@ -42,7 +42,7 @@ jobs:
             #   git add history_barcode_diffs/barcode_diff$(date +"%m_%d_%Y-%H-%M").txt
             # fi
             git add usher_barcodes.feather
-            pip install pandas
+            pip install pandas pyarrow
             python update_csv.py
             git add usher_barcodes.csv
             git add curated_lineages.json
