@@ -17,9 +17,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@main
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: update
         shell: bash -l {0}
         run: |
@@ -32,8 +29,8 @@ jobs:
           echo "running git diff, committing if different"
           if [[($(git status usher_barcodes.feather --porcelain | wc -c) -ne 0)]]; then
             echo "changes were made, updating barcodes"
-            git config --local user.name "$GITHUB_ACTOR"
-            git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git config --global user.name "github-actions[bot]"
             timestamp=$(date +"%m_%d_%Y-%H-%M")
             cp usher_barcodes.feather history_barcodes/usher_barcodes${timestamp}.feather
             cp curated_lineages.json history_metadata/curated_lineages${timestamp}.json
